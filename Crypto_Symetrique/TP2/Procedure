@@ -1,0 +1,112 @@
+On sait déjà que dans un texte français les lettres ne sont pas uniformément distribuées.
+L’indice de coïncidence mesure la probabilité que, si on prends deux lettres au hasard dans un 
+texte donné, ces deux lettres soient la même.
+l’indice de coïncidence attendu de la langue française est environ 0.078.
+Plusieurs décalages, comme dans Vigenère, changent l’indice de coïncidence, 
+car maintenant les probabilités dépendent de la positions des lettres par rapport à la clef.
+
+Supposons alors qu’on ne connaisse pas la longueur n de la clef. Pour la deviner on procède comme suit:
+	Découper le texte chiffré en n textes (n prenant une lettre sur n à chaque fois).
+	Si on a deviné la bonne longueur, chaque texte est le chiffré de César d’une portion d’un texte français, il a donc un indice de coïncidence proche de 0.078, et peut être déchiffré rapidement.
+	
+On appliquant cette méthode à des n de plus en plus grands, on s’arrête lorsqu’on 
+rencontre un n qui donne les bons indices de coïncidence.
+
+En utilisant l'exécutable coincidence pour 0<n<11 on obtient :
+ 1: 0.0384
+ 2: 0.0472 0.0429
+ 3: 0.0575 0.0513 0.0481
+ 4: 0.0552 0.0475 0.0454 0.0377
+ 5: 0.0370 0.0423 0.0332 0.0354 0.0443
+ 6: 0.0841 0.0635 0.0794 0.0619 0.0746 0.0778
+ 7: 0.0301 0.0796 0.0323 0.0344 0.0280 0.0366 0.0301
+ 8: 0.0688 0.0427 0.0228 0.0313 0.0370 0.0456 0.0598 0.0285
+ 9: 0.0433 0.0471 0.0580 0.0725 0.0652 0.0543 0.0688 0.0326 0.0326
+10: 0.0303 0.0563 0.0346 0.0303 0.0563 0.0433 0.0779 0.0333 0.0476 0.0476
+
+On s'aperçoit que pour n = 6, les indices de coincidence se rapprochent de 0,78. On se dit alors que peut être n = 6.
+
+on utilise ensuite coincidence2, qui nous donnera l'écart entre chaque lettre de la clé. On regardera donc entre chaque sous texte pour
+quelle valeur de décalage l'indice sera le plus élevé.
+
+on obtient donc 
+
+0-1 => 2
+0-2 => 25
+0-3 => 5
+0-4 => 3
+0-5 => 4
+
+1-2 => 23      
+1-3 => 33
+1-4 => 1
+1-5 => 2
+
+2-3 => 6
+2-4 => 4
+2-5 => 5
+
+3-4 => 24
+3-5 => 25
+
+4-5 => 2
+
+si on note la clé XYZTSU, on obtient alors les systèmes suivants à résoudre :
+	Y = X+2      
+	Z = X+25     Z = Y+23
+	T = X+5      T = Y+3      T = Z+6
+	S = X+3      S = Y+1      S = Z+4     S = T+24
+	U = X+4      U = Y+2      U = Z+5     U = T+25     U = S+2
+	
+	(Tous les calculs étant modulo 25)
+	
+On s'aperçoit ensuite que toutes les colonnes sont équivalentes, on ne conserve donc que la première.
+Si on arrive donc à trouver la première lettre, on trouve toute la clé. Il y a donc 26 possibilités.
+On prend alors une lettre sur 6 dans le chiffré, grace à l'exécutable splitText créé, pour faire une
+analyse frequentielle grâce à testFreqs.
+
+La lettre la plus fréquente est le t, donc on aurait e->t, soit la clé "p".
+Si X = p alors
+   Y = p+2 = r
+   Z = p+25 = O
+   T = p+5 = u
+   S = p+3 = s
+   U = p+4 = t
+   
+   soit la clé "proust".
+
+en décodant vigCrypt4 avec la clé "proust" on obtient:
+
+javaislaissesamollirunmorceaudemadeleinemaisalinstantmemeoulagor
+geemeleedesmiettesdugateautouchamonpalaisjetressaillisattentifac
+equisepassaitdextraordinaireenmoiunplaisirdelicieuxmavaitenvahii
+solesanslanotiondesacause
+
+Soit:
+
+"j'avais laisse s'amollir un morceau de madeleine
+ mais a l'instant meme ou la gorgee melee des miettes du gateau
+toucha mon palais je tressaillis attentif
+a ce qui se passait d'extraordinaire en moi
+un plaisir delicieux m'avait 
+envahi isole sans la notion de sa cause"
+
+
+
+Pour compiler l'exécutable splitText, un makefile a été créé:
+	make pour créer l'exécutable
+	make clean pour effacer le fichier.o
+	make cleanSplit pour effacer le fichier créé
+	make mrproper pour effacer l'exécutable et le fichier créés
+	
+Pour l'utilisation : 
+	./splitText [fichier] [nombre]
+	crée un fichier contenant tous les caractères dont la position est congrue à 0 modulo le nombre choisi
+	
+	
+Les commandes utilisées ont donc été
+	./concidence 10 vigCrypt4 (pour avoir les indices de coincidence)
+	./concidence2 6 vigCrypt4 (pour déterminer l'écart entre les lettres)
+	./splitText vigCrypt4 6 (pour isoler le sous-texte à tester)
+	./vigDecode proust vigCrypt4 (pour déchifrer le message)
+

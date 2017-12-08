@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+     <title>cryptogrammes</title>
+     <link rel="stylesheet" type="text/css" href="http://www.pps.jussieu.fr/~roziere/home.css" />
+  </head>
+  <body>
+    <h1>cryptogrammes</h1>
+    <ul>
+<li><a href="cesarCrypt">cesarCrypt</a></li>
+<li><a href="cosette">cosette</a></li>
+<li><a href="cosette.ori">cosette.ori</a></li>
+<li><a href="cosetteCrypt">cosetteCrypt</a></li>
+<li><a href="decembreCrypt">decembreCrypt</a></li>
+<li><a href="meteoCrypt">meteoCrypt</a></li>
+<li><a href="substCrypt">substCrypt</a></li>
+<li><a href="vig2Crypt">vig2Crypt</a></li>
+<li><a href="vig3Crypt">vig3Crypt</a></li>
+<li><a href="vigCrypt">vigCrypt</a></li>
+<li><a href="vigCrypt1">vigCrypt1</a></li>
+<li><a href="vigCrypt2">vigCrypt2</a></li>
+<li><a href="vigCrypt3">vigCrypt3</a></li>
+<li><a href="vigCrypt4">vigCrypt4</a></li>
+<li><a href="vigCrypt5">vigCrypt5</a></li>
+<li><a href="vigCrypt6">vigCrypt6</a></li>
+</ul>
+  </body>
+</html>

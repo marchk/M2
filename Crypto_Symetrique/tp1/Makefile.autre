@@ -1,0 +1,46 @@
+CC = gcc
+CFLAGS = -Wall -O3
+CPPFLAGS = -I.
+
+LDFLAGS =
+
+LIBS = -lm
+
+PRGS = f2_poly_test arithm_test  f2_poly_prim_test f2_poly_random_test f2_poly_random f2_irred_count f2_primitive_count f2_poly_count
+
+
+SRCS = $(wildcard *.c)
+OBJS = $(SRCS:.c=.o)
+HEADERS = $(wildcard *.h)
+HEADERSOBJ = $(HEADERS:.h=.o)
+
+.SECONDARY:
+.PHONY: clean depend
+
+ifneq (.depend,$(wildcard .depend))
+all: depend
+endif
+
+all: $(PRGS)
+
+arithm_test:\
+	arithm_test.o arithm.o
+	$(CC) $(CFLAGS) $^ -o $@ $(LIBS) 
+
+$(PRGS):\
+	f2_%: f2_%.o $(HEADERSOBJ)
+	$(CC) $(CFLAGS) $^ -o $@ $(LIBS) 
+
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif
+
+%.o: %.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+clean:
+	-rm -rf *~ \#*\# .\#* core *core
+	-rm -rf $(PRGS) $(OBJS) .depend
+
+depend:
+	$(CC) $(CPPFLAGS) -MM $(SRCS) > .$@

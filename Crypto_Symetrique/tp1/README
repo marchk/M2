@@ -1,0 +1,6 @@
+Pour executer le programme
+	make pour compiler
+	./f2_poly_test pour lancer le programme
+	
+	Le programme effectue des test pour toutes les methodes fonctionnelles
+		La méthode f2_poly_irred_order n'est pas fonctionnelle
