@@ -1,0 +1,75 @@
+Marc-Henri KASSES, M2 MIC
+
+-----------------------------------------------
+
+Temps estimé : 1h30
+Temps réel : 3h00
+
+-----------------------------------------------
+
+Lors de la programmation, je n'ai pas réussi à conserver les modificationns apportées au tableau à la sortie de la fonction colimacon, bien que des pointeurs soient utilisés...
+Je n'ai également pas bien compris l'intéret des librairies..
+
+-----------------------------------------------
+
+Le choix de prototype est le même que celui proposé. L'un des désavantages est de devoir initialiser le tableau avant d'entrer dans la fonction..
+
+-----------------------------------------------
+
+Temps d'exécution (calculé avec la méthode clock() )
+=> 10x10 : 0.000210 seconde
+=> 100x100 : 0.001500 seconde
+=> 1000x1000 : 0.040000 seconde
+=> 10000x10000 : 8.1 secondes
+
+-----------------------------------------------
+
+Pour un tableau de N cases il y a N acces en lecture et N acces en ecriture.
+
+-----------------------------------------------
+
+Au niveau de la mémoire, en utilisant valgrind sur un tableau de taille 10x10:
+
+valgrind --tool=memcheck --leak-check=full ./colimaconstat 10 10
+==3440== Memcheck, a memory error detector
+==3440== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==3440== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==3440== Command: ./colimaconstat 10 10
+==3440== 
+ 1  2  3  4  5  6  7  8  9 10 
+36 37 38 39 40 41 42 43 44 11 
+35 64 65 66 67 68 69 70 45 12 
+34 63 84 85 86 87 88 71 46 13 
+33 62 83 96 97 98 89 72 47 14 
+32 61 82 95 100 99 90 73 48 15 
+31 60 81 94 93 92 91 74 49 16 
+30 59 80 79 78 77 76 75 50 17 
+29 58 57 56 55 54 53 52 51 18 
+28 27 26 25 24 23 22 21 20 19 
+---Time spent : 0.011131 seconds---
+==3440== 
+==3440== HEAP SUMMARY:
+==3440==     in use at exit: 0 bytes in 0 blocks
+==3440==   total heap usage: 12 allocs, 12 frees, 1,504 bytes allocated
+==3440== 
+==3440== All heap blocks were freed -- no leaks are possible
+==3440== 
+==3440== For counts of detected and suppressed errors, rerun with: -v
+==3440== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+-----------------------------------------------
+
+Comme je n'ai pas réussi à utiliser la commande perf, on m'a conseillé d'utiliser valgrind. On m'a également fait remarqué qu'il y avait beaucoup de boucles dans mes fonctions, mais je n'ai pas changé le programme car je n'ai pas trouvé d'autre moyens qui à mon sens seraient plus efficaces..
+
+-----------------------------------------------
+Pour le makefile
+	1 executable colimacon
+	création des librairies statiques
+	possibilité de les créer séparément
+	=> make clean pour effacer les .o et les librairies
+	=> make raz pour effectuer clean + la suppression de l'executable
+	
+A l'exécution:
+	pas de paramètre : test sur 10 tableaux aléatoires de taille max 30*30 (pour la lisibilite..)
+			OU
+	2 parametres [lignes] et [colonnes] et test sur un tableau de taille lignes*colonnes
