@@ -1,0 +1,30 @@
+GCC=gcc
+CFLAGS =-Wall -Wpointer-arith -O3
+EXEC=shanks rho_pollard
+
+all : $(EXEC)
+	
+	
+rho_pollard.o : rho_pollard.c modulo.c
+	$(GCC) $(CFLAGS) -c $<
+	
+	
+shanks.o : shanks.c modulo.c
+	$(GCC) $(CFLAGS) -c $<
+
+main.o : main.c rho_pollard.c shanks.c
+	$(GCC) $(CFLAGS) -c $<
+	
+main : main.o
+	$(GCC) $(CFLAGS) -o $@ $^
+	
+	
+	
+clean :
+	rm *.o
+	
+cleanExec :
+	rm $(EXEC)
+	
+mrproper : clean cleanExec
+	

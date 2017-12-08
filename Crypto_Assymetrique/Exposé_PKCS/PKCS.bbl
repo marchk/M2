@@ -1,0 +1,30 @@
+\begin{thebibliography}{1}
+
+\bibitem{1}
+B.~Kaliski (RSA~Laboratories East).
+\newblock Pkcs \#1: Rsa encryption version 1.5, Mars 1998.
+\newblock https://tools.ietf.org/html/rfc2313.
+
+\bibitem{2}
+Wikipedia.
+\newblock Public key cryptographic standards, Septembre 2017.
+\newblock https://fr.wikipedia.org/wiki/Public_Key_Cryptographic_Standards.
+
+\bibitem{3}
+Wikipedia.
+\newblock Pkcs 1, Mars 2017.
+\newblock https://en.wikipedia.org/wiki/PKCS_1.
+
+\bibitem{4}
+RSA Laboratories.
+\newblock Pkcs\#1 v2.2 : Rsa cryptography standard, Octobre 2012.
+\newblock
+  https://www.emc.com/collateral/white-papers/h11300-pkcs-1v2-2-rsa-cryptography-standard-wp.pdf.
+
+\bibitem{5}
+Inc E.~Rescorla, RTFM.
+\newblock Empêcher l'attaque du million de messages sur la syntaxe de message
+  cryptographique, Janvier 2002.
+\newblock http://abcdrfc.free.fr/rfc-vf/rfc3218.html#_Toc227517292.
+
+\end{thebibliography}
