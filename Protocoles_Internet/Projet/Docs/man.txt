@@ -1,0 +1,5 @@
+"GET" Demande les annonces postées au serveur
+"NEW PSEUDO[pseudo] PORT[port] TITLE[titre]"  ---- Ajoute une annonce créée par pseudo. Le serveur répond "ADD ID[id] TITLE[titre]" pour confirmer que l'annonce titre à été ajoutée et son identifiant est id.
+"DEL ID[id]" ---- Supprimme l'annonce d'identifiant id.
+"CON ID[id]" ---- Demande une connexion à un autre client d'identifiant id. Le serveur répond "OK" si la connexion s'établit, "NO" si ce n'est pas possible.
+
