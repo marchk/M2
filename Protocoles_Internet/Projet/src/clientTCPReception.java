@@ -14,27 +14,25 @@ public class clientTCPReception implements Runnable{
 			while(true){
 				String mess=br.readLine();
 				if((mess!=null)&&(!mess.equals(""))){
-					if(mess.startsWith("CON")){
-						String[] ms = mess.split(" ");//"CON IDid IPip PORTport
-						String ip = "";
-						int port =0;
-						for(String str : ms){
-							if(str.startsWith("PORT")){ port = Integer.parseInt(str.substring(4)); }
-							else if(str.startsWith("IP")){ ip = str.substring(3); }
-						}
+					if(mess.startsWith("CON PORT")){
 						try{
-							Hote h = new Hote(port);
-							Thread th = new Thread(h);
-							th.start();
-							PrintWriter pw2=new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-							pw2.println("OK IP"+ip);
-							pw2.flush();
-						}catch(Exception e){ 
-							PrintWriter pw2=new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-							pw2.println("NON IP"+ip);
-							pw2.flush();
-						}
+							String[] ms = mess.split(" ");//"CON IDid IPip PORTport
+							String port = ms[ms.length-1];
+							System.out.print("Un membre veut se connecter avec vous sur le port "+port+". Acceptez-vous ? (OUI/NON) : ");
+							Scanner sc = new Scanner(System.in);
+							String rep = sc.nextLine();
+							PrintWriter pw=new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+							if(rep.equals("OUI")){
+								pw.println("OK CON");
+							}
+							else{
+								pw.println("NON");
+							}
+							pw.flush();
+							pw.close();
+						}catch(Exception e){}
 					}
+					
 					else if(mess.startsWith("ADD")){
 						String[] ms = mess.split(" ");
 						for(int i=0; i<ms.length; i++){
@@ -64,7 +62,7 @@ public class clientTCPReception implements Runnable{
 					
 					else{
 						String[] ms = mess.split("@");
-						System.out.print("Reçu du serveur :\n\"");
+						//System.out.print("Reçu du serveur :\n\"");
 						for(int i=0;i<ms.length; i++){
 							System.out.println(ms[i]);
 						}
