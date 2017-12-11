@@ -24,7 +24,7 @@ public class servThread implements Runnable{
 			for(String ann : list){
 				String[] spl = ann.split("%%");
 				String adre = spl[0], id = spl[1], port = spl[2], titre = spl[3], data = spl[4];
-				res += "ADD ID "+id+" TITLE "+titre+" ";
+				res += "ADD ID "+id+" TITLE "+titre+"\n";
 			}
 		}
 		if(res.equals("")){res = "Pas d'annonces !";}
@@ -56,7 +56,7 @@ public class servThread implements Runnable{
 	
 	
 	private synchronized void send_members(String m){
-	//----Envoie la chaîne de caractère m à tous les membres----
+	//----Envoie la chaîne de caractère m à tous les membres connectés----
 		for(Socket s : serveurTCP.members ){
 			try{
 				PrintWriter pw=new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
@@ -123,7 +123,7 @@ public class servThread implements Runnable{
 	
 	
 	private synchronized void del_announces(String ad){
-	//----Supprime une annonce et préviens les membres connectés----
+	//----Supprime toutes les annonces d'un membre et prévient les membres connectés----
 		try{
 			ArrayList<String> list = serveurTCP.announces.get(this.socket.getInetAddress().toString());
 			for(String ann : list){
@@ -140,7 +140,7 @@ public class servThread implements Runnable{
 	
 	
 	private synchronized String del_ann(String m){
-	//----Supprime une annonce et préviens les membres connectés----
+	//----Supprime une annonce et prévient les membres connectés----
 		try{
 			String id = null;
 			String[] ab = m.split(" ");
@@ -165,13 +165,22 @@ public class servThread implements Runnable{
 			String r = r1.getInetAddress().toString();
 			ArrayList<String> ann = serveurTCP.announces.get(r);
 			for(String a : ann){
-				String[] s = a.split(" ");
-				for(String t : s){
-					if(t.startsWith("ID")){ 
-						String q = t.substring(2);
-						if(id.equals(q)){return r.substring(1);}	
-					}
-				}
+				String[] s = a.split("%%");
+				String adre = s[0], ida = s[1];
+				if(id.equals(ida)){return adre;}
+			}
+		}
+		return null;
+	}
+	
+	private String portForId(String id){
+		for(Socket r1 : serveurTCP.members){
+			String r = r1.getInetAddress().toString();
+			ArrayList<String> ann = serveurTCP.announces.get(r);
+			for(String a : ann){
+				String[] s = a.split("%%");
+				String port = s[2], ida = s[1];
+				if(id.equals(ida)){return port;}
 			}
 		}
 		return null;
@@ -183,30 +192,27 @@ public class servThread implements Runnable{
 		try{
 			String[] opt = m.split(" ");
 			if(opt[1].startsWith("ID")){
-				String id = opt[1].substring(2);
+				String id = opt[2];
 				
-				String ann = des_announce(id);
-				//"IDid PORTport TITLEtitre MESSAGEdata;
-				String ip="" ,port="";
-				String[] tab_ann = ann.split(" ");
-				for(String r : tab_ann){
-					if(r.startsWith("PORT")){ port = r.substring(4); }
-					else if(r.startsWith("ID")){ id = r.substring(2); }
-				}
-				String ip2 = ipForId(id);
+				String ip = ipForId(id);
+				String port = portForId(id);
+				
 				Socket s = null;
 				for(Socket z : serveurTCP.members){
 					if(z.getInetAddress().toString().equals(ip)){s=z;}
 				}
+				
 				PrintWriter pw2=new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
 				BufferedReader br2=new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
-				pw2.println(m+" IP"+ip.substring(1)+" PORT"+port);
+				
+				pw2.println("CON PORT "+port);
 				pw2.flush();
 				while(true){
 					String mess=br2.readLine();
-					if(mess==null){}
-					else if(mess.equals("OK IP"+ip.substring(1))){
-						return "OK IP"+s.getInetAddress().toString().substring(1)+" PORT"+port;
+					if(mess.equals("OK CON")){
+						pw2.close();
+						br2.close();
+						return "OUI IP "+s.getInetAddress().toString().substring(1)+" PORT "+port;
 					}
 					else{break;}
 				}
