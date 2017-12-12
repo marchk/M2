@@ -18,6 +18,8 @@ public class Client extends Conv implements Runnable{
 			Conversation c = new Conversation(this);
 			Thread t = new Thread(c);
 			t.start();
+			t.join();
+			s.close();
 		}catch(Exception e){
 			System.out.println(e);
 			e.printStackTrace();
