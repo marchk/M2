@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
  
-public class Conversation extends JFrame implements Runnable ,ActionListener{
+public class Conversation extends JFrame implements Runnable{
 	private Conv h;
 	private JLabel[] lab_tab;
 	private JButton envoi;
@@ -19,13 +19,26 @@ public class Conversation extends JFrame implements Runnable ,ActionListener{
     	this.setTitle("Connection with "+h.getSock().getInetAddress().toString()+" in port "+h.getPort());
     	this.setSize(700, 500);
     	this.setLocationRelativeTo(null);
-	    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	    //this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		/*this.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				try{
+					pw.close();
+					h.socket.close();
+					System.out.println("Fermé Closed");
+				}catch(Exception e){e.printStackTrace();}
+			}
+		});*/
+		
 	    // Create a  vertical box
 		Box vBox = Box.createVerticalBox();
 		
 		lab_tab = new JLabel[10];
 		for(int i=0; i<10; i++){
-			JLabel label = new JLabel("Label "+(i+1));
+			JLabel label = new JLabel("--------------");
 			lab_tab[i] = label;
 			label.setSize(700,500/11);
 			vBox.add(label);
@@ -38,7 +51,17 @@ public class Conversation extends JFrame implements Runnable ,ActionListener{
         
         envoi = new  JButton("Send");
         //envoi.setSize(20,100);
-        envoi.addActionListener(this);
+        envoi.addActionListener(new ActionListener(){ 
+			public void actionPerformed(ActionEvent e){
+				//String text = textField.getText();
+				maj(lab_tab, textField.getText());
+				pw.println(textField.getText());
+				textField.setText("");
+				pw.flush();
+			
+			} 
+		});        
+        
 	    Box hBox = Box.createHorizontalBox();
 		hBox.add(textField); 
 		hBox.add(Box.createHorizontalGlue()); 
@@ -55,8 +78,6 @@ public class Conversation extends JFrame implements Runnable ,ActionListener{
     	this.pack();
 	    
 	    
-	    
-	    
 	    try{
 			pw = new PrintWriter(new OutputStreamWriter(h.getSock().getOutputStream()));
 		}catch(Exception e){
@@ -65,13 +86,9 @@ public class Conversation extends JFrame implements Runnable ,ActionListener{
 		
   }
   
-   public void actionPerformed(ActionEvent evt) {
-        String text = textField.getText();
-        maj(this.lab_tab, text);
-        textField.setText("");
-        pw.println(text);
-        pw.flush();
-   }
+   /*public void actionPerformed(ActionEvent evt) {
+       
+   }*/
        
    private synchronized static void maj(JLabel[] lb, String s){
 		for(int i=0; i<lb.length-1; i++){
@@ -88,4 +105,3 @@ public class Conversation extends JFrame implements Runnable ,ActionListener{
 	}
 	
 }
-
