@@ -12,17 +12,19 @@ public class Client extends Conv implements Runnable{
 	}
 	
 	public void run(){
+		Thread t=null;
 		try{
 			Socket s=new Socket(this.ip,this.port);
 			this.socket = s;
 			Conversation c = new Conversation(this);
-			Thread t = new Thread(c);
+			t = new Thread(c);
 			t.start();
 			t.join();
 			s.close();
 		}catch(Exception e){
 			System.out.println(e);
 			e.printStackTrace();
+			if(t!=null){t.stop();}
 		}
 	}
 
