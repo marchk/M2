@@ -104,14 +104,14 @@ public class servThread implements Runnable{
 				}
 				
 			}
-			if(titre==null || port==null){return "NON";}
+			if(titre==null || titre.equals("") || !isNumber(port)){return "NON";}
 
 			MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
 			messageDigest.update(m.getBytes());
 			id = ""+(new String(messageDigest.digest())).hashCode();
 			String ann = adre+"%%"+id+"%%"+port+"%%"+titre+"%%"+data;
 			serveurTCP.ajoute(this.socket.getInetAddress().toString(), ann);
-			String ret = "ADD ID"+id+" TITLE"+titre;
+			String ret = "ADD ID "+id+" TITLE "+titre;
 			send_members(ret);
 			return "OK";
 		}catch(Exception e){
@@ -119,7 +119,14 @@ public class servThread implements Runnable{
 		}
 	}
 	
-	
+	private static boolean isNumber(String n){
+		boolean num = true;
+		for(int i=0; i<n.length(); i++){
+			char c = n.charAt(i);
+			if(!(c>='0' && c<='9')){return false;}
+		}
+		return true;
+	}
 	
 	
 	private synchronized void del_announces(String ad){
@@ -130,7 +137,7 @@ public class servThread implements Runnable{
 				String[] spl = ann.split("%%");
 				String adre = spl[0], id = spl[1], port = spl[2], titre = spl[3], data = spl[4];
 				if(adre.equals(ad)){
-					send_members("DEL ID"+id);
+					send_members("DEL ID "+id);
 					list.remove(ann);
 				}
 			}
@@ -144,13 +151,13 @@ public class servThread implements Runnable{
 		try{
 			String id = null;
 			String[] ab = m.split(" ");
-			for(String s : ab){ if(s.startsWith("ID")){ id = s.substring(2); break; } }
+			for(int i=0; i<ab.length; i++){ if(ab[i].startsWith("ID")){ id = ab[i+1]; break; } }
 			ArrayList<String> list = serveurTCP.announces.get(this.socket.getInetAddress().toString());
 			for(String ann : list){
 				String[] spl = ann.split("%%");
 				String adre = spl[0], id2 = spl[1], port = spl[2], titre = spl[3], data = spl[4];
 				if(id.equals(id2)){
-					send_members("DEL ID"+id);
+					send_members("DEL ID "+id);
 					list.remove(ann);
 					return "OK";
 				}
@@ -192,7 +199,7 @@ public class servThread implements Runnable{
 		try{
 			String[] opt = m.split(" ");
 			if(opt[1].startsWith("ID")){
-				String id = opt[2];
+				String id = opt[2], ip2 = opt[4];
 				
 				String ip = ipForId(id);
 				String port = portForId(id);
@@ -203,22 +210,9 @@ public class servThread implements Runnable{
 				}
 				
 				PrintWriter pw2=new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
-				BufferedReader br2=new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
-				
-				pw2.println("CON PORT "+port);
+				pw2.println("CON PORT "+port+ " IP "+ip2);
 				pw2.flush();
-				while(true){
-					String mess=br2.readLine();
-					if(mess.equals("OK CON")){
-						pw2.close();
-						br2.close();
-						return "OUI IP "+s.getInetAddress().toString().substring(1)+" PORT "+port;
-					}
-					else{break;}
-				}
-				pw2.close();
-				br2.close();
-				return "NON";
+				return "WAIT";
 			}
 			else{ return "NON"; }
 		}catch(Exception e){ e.printStackTrace();return "NON";}
@@ -262,6 +256,40 @@ public class servThread implements Runnable{
 	}
 
 
+	private static String setAdr(String ip){
+		String[] ipt = ip.split("/");
+		return ipt[ipt.length-1];
+	}
+
+
+	private Socket sockForIp(String ip){
+		String ip2 = setAdr(ip);
+		System.out.println("IP to find : "+ip2);
+		for(Socket s : serveurTCP.members){
+			String sadr = setAdr(s.getInetAddress().toString()),
+				sadr2 = setAdr(s.getLocalAddress().toString());
+			System.out.println(""+ip2 +" = "+sadr+" || "+sadr2);
+			if(sadr.equals(ip2) || sadr2.equals(ip2)){return s;}
+		}
+		return null;
+	}
+
+
+	private void send_con(String mess){
+		try{
+			String[] ms = mess.split(" ");
+			String ip = "", port="";
+			for(int i=0; i<ms.length; i++){
+				if(ms[i].startsWith("IP")){ip = ms[i+1];}
+				else if(ms[i].startsWith("PORT")){port = ms[i+1];}
+			}
+			Socket so = sockForIp(ip);
+			PrintWriter pw2=new PrintWriter(new OutputStreamWriter(so.getOutputStream()));
+			pw2.println("OK IP "+this.socket.getInetAddress()+" PORT "+port);
+			pw2.flush();
+		}catch(Exception e){System.out.println(e);
+			e.printStackTrace();}
+	}
 
 	
 	public void run(){
@@ -277,9 +305,16 @@ public class servThread implements Runnable{
 					pw.flush();
 					break;
 				}
-				String rep = read_exec(mess);
-				pw.println(rep);
-				pw.flush();
+				else if(mess.startsWith("OK CON")){
+					send_con(mess);
+				}
+				else{
+					String rep = read_exec(mess);
+					if(!rep.equals("WAIT")){
+						pw.println(rep);
+						pw.flush();
+					}
+				}
 				System.out.println("\nMessage recu : \""+mess+"\"\n(Envoyé par "+sockAdr+")\n");
 				
 			}			
