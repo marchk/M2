@@ -45,7 +45,7 @@ public class serveurTCP{
 	synchronized static void connect(Socket ad){
 		String adr = ad.getInetAddress().toString();
 		if(announces.get(adr)==null){		
-			System.out.println(""+adr+" logged in !");
+			System.out.println(""+adr+" is connected !");
 			announces.put(adr,new ArrayList<String>());
 			members.add(ad);
 		}
