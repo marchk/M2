@@ -16,6 +16,7 @@ public class Client extends Conv implements Runnable{
 		try{
 			Socket s=new Socket(this.ip,this.port);
 			this.socket = s;
+			System.out.println("Connexion établie");
 			Conversation c = new Conversation(this);
 			t = new Thread(c);
 			t.start();
