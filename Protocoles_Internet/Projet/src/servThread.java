@@ -45,7 +45,7 @@ public class servThread implements Runnable{
 					String[] spl = ann.split("%%");
 					String adre = spl[0], id = spl[1], port = spl[2], titre = spl[3], data = spl[4];
 					if(id.equals(idm)){			
-						res += "ID "+id+" PORT "+port+" TITLE "+titre+" MESSAGE "+data;
+						res += /*"ID "+id+" PORT "+port+*/" TITLE "+titre+" MESSAGE "+data;
 						return res;
 					}
 				}
