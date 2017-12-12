@@ -28,7 +28,7 @@ public class servThread implements Runnable{
 			}
 		}
 		if(res.equals("")){res = "Pas d'annonces !";}
-		return res;
+		return res+"OUI";
 	}
 	
 	
