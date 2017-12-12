@@ -3,7 +3,8 @@ import java.io.*;
 import java.util.*;
 
 public class clientTCP{
-
+	private static Socket so;
+	
 	private static String commande(String com){
 		Scanner sc = new Scanner(System.in);
 		String res = "";
@@ -38,9 +39,12 @@ public class clientTCP{
 			return "NEW TITLE "+titre+" PORT "+port+" MESSAGE "+msg;
 		}
 	
-		/*else if(com.equals("CON")){
-			return connect_to(m);
-		}*/
+		else if(com.equals("CON")){
+			String id, ip = so.getInetAddress().toString();
+			System.out.print("ID de l'article qui vous intéresse : ");
+			id = sc.nextLine();
+			return "CON ID "+id+" IP "+ip;
+		}
 		
 		else{ return com; }
 	}
@@ -67,6 +71,7 @@ public class clientTCP{
 				InetAddress myIA=InetAddress.getLocalHost();
 				socket=new Socket(myIA,7777);
 			}
+			so = socket;
 			clientTCPReception cR = new clientTCPReception(socket);
 			Thread t1 = new Thread(cR);
 			t1.start();
