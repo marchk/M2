@@ -1,17 +1,8 @@
 JAVA=javac
 
-all : clientTCP.class serveurTCP.class servThread.class clientTCPReception.class
+all : clientTCP.class serveurTCP.class servThread.class clientTCPReception.class Client.class Conv.class ConvReception.class Conversation.class Hote.class Popup.class
 
-clientTCP.class : clientTCP.java
-	$(JAVA) $^
-
-serveurTCP.class : serveurTCP.java
-	$(JAVA) $^
-	
-servThread.class : servThread.java
-	$(JAVA) $^
-	
-clientTCPReception.class : clientTCPReception.java
+%.class : %.java
 	$(JAVA) $^
 
 clean :
