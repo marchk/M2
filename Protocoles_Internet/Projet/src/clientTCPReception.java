@@ -35,13 +35,13 @@ public class clientTCPReception implements Runnable{
 						tc.start();
 					}
 					
-					else{
+					//else{
 						//String[] ms = mess.split("@");
 						System.out.println("\""+mess+"\"");
 						/*for(int i=0;i<ms.length; i++){
 							System.out.println(ms[i]+"\"");
 						}*/
-					}
+					//}
 				}
 			}
 		}
