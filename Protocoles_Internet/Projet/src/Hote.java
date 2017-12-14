@@ -15,7 +15,8 @@ public class Hote extends Conv implements Runnable{
 		try{
 			System.out.println("[En attente de connexion sur le port "+this.port+"...]");
 			ServerSocket server = new ServerSocket(this.port);
-			while(true){
+			int i=0;
+			while(i<0xfffff){
 				Socket s=server.accept();
 				this.socket = s;
 				System.out.println("[Connexion en cours avec "+s.getInetAddress().toString()+"...]");
