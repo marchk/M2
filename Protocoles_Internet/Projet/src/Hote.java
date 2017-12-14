@@ -13,12 +13,12 @@ public class Hote extends Conv implements Runnable{
 	
 	public void run(){
 		try{
-			System.out.println("Hote en attente sur le port "+this.port);
+			System.out.println("[En attente sur le port "+this.port+"...]");
 			ServerSocket server = new ServerSocket(this.port);
 			while(true){
 				Socket s=server.accept();
 				this.socket = s;
-				System.out.println("Connexion en cours...");
+				System.out.println("[Connexion en cours avec "+s.getInetAddress().toString()+"...]");
 				Conversation c = new Conversation(this);
 				/*t = new Thread(c);
 				t.start();				
