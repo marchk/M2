@@ -21,7 +21,7 @@ public class Hote extends Conv implements Runnable{
 				this.socket = s;
 				System.out.println("[Connexion en cours avec "+s.getInetAddress().toString()+"...]");
 				Conversation c = new Conversation(this);
-				while(!c.isDone()){}
+				while(!c.isDone()){System.out.print();}
 				server.close();
 				System.out.println("[Connexion terminée avec "+s.getInetAddress().toString()+"]");
 			}
