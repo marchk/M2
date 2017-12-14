@@ -29,10 +29,17 @@ public class clientTCPReception implements Runnable{
 							if(ms[i].startsWith("IP")){ip = ms[i+1];}
 							else if(ms[i].startsWith("PORT")){port = Integer.parseInt(ms[i+1]);}
 						}
-						Thread.sleep(4000);
-						Client c = new Client(port,ip);
-						Thread tc = new Thread(c);
-						tc.start();
+						//Thread.sleep(4000);
+						if(mess.contains("HOST")){
+							Hote h = new Hote(port);
+							Thread th = new Thread(h);
+							th.start();
+						}
+						else{
+							Client c = new Client(port,ip);
+							Thread tc = new Thread(c);
+							tc.start();
+						}
 					}
 					
 					//else{
