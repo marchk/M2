@@ -10,6 +10,7 @@ public class Client extends Conv implements Runnable{
 	
 	public Client(int p, String i){
 		super(null,p);
+		this.ip = i;
 	}
 	
 	public void run(){
@@ -17,19 +18,23 @@ public class Client extends Conv implements Runnable{
 		Exception ex=null;
 		int i=0;
 		try{
+			System.out.println("[Tentative de connexion avec "+this.ip+"...]");
 			do{
 				try{
 					s=new Socket(this.ip,this.port);
 					i++;
 				}catch(Exception e){ex = e;}
 			}while(ex!=null && i<0xfffffff);
-			this.socket = s;
-			System.out.println("Connexion établie");
-			Conversation c = new Conversation(this);
-			/*t = new Thread(c);
-			t.start();*/
-			//s.close();
-			//server.close();
+			if(s!=null){
+				this.socket = s;
+				System.out.println("Connexion établie");
+				Conversation c = new Conversation(this);
+				/*t = new Thread(c);
+				t.start();*/
+				//s.close();
+				//server.close();
+			}
+			else{ System.out.println("Connexion échouée"); }
 		}catch(Exception e){
 			System.out.println(e);
 			e.printStackTrace();
