@@ -18,10 +18,10 @@ public class Client extends Conv implements Runnable{
 			this.socket = s;
 			System.out.println("Connexion établie");
 			Conversation c = new Conversation(this);
-			t = new Thread(c);
-			t.start();
-			t.join();
-			s.close();
+			/*t = new Thread(c);
+			t.start();*/
+			//s.close();
+			//server.close();
 		}catch(Exception e){
 			System.out.println(e);
 			e.printStackTrace();
