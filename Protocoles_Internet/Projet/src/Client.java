@@ -33,7 +33,6 @@ public class Client extends Conv implements Runnable{
 		}catch(Exception e){
 			System.out.println(e);
 			e.printStackTrace();
-			if(t!=null){t.stop();}
 		}
 	}
 
