@@ -22,10 +22,10 @@ public class Client extends Conv implements Runnable{
 			do{
 				try{
 					s=new Socket(this.ip,this.port);
-					i++;
 				}catch(Exception e){ex = e;}
+				i++;
 				System.out.println("i = "+i+" : socket = "+s);
-			}while(ex!=null && i<0xfffffff);
+			}while(ex==null && i<100000);
 			if(s!=null){
 				this.socket = s;
 				System.out.println("Connexion établie");
