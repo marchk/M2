@@ -32,7 +32,7 @@ public class clientTCP{
 			System.out.print("Port d'écoute pour l'annonce : ");
 			port = sc.nextLine();
 			while(!isNumber(port) || !portLibre(Integer.parseInt(port))){
-				System.out.println("Port Indisponible ou invalide ! Rechoisir un port !");
+				System.out.print("Port Indisponible ou invalide ! Rechoisir un port : ");
 				port = sc.nextLine();
 			}
 			
