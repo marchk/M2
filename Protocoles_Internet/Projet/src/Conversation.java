@@ -26,7 +26,7 @@ public class Conversation extends JFrame /*implements Runnable*/{
 		this.setLocationRelativeTo(null);
 		this.frame = this;
     	//this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-	    this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+	    //this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
