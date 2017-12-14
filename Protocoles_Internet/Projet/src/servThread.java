@@ -293,6 +293,7 @@ public class servThread implements Runnable{
 		try{
 			BufferedReader br=new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			PrintWriter pw=new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+			InetAddress sockAdr = socket.getInetAddress();
 			while(true){
 				String mess=br.readLine();
 				if(mess.equals("BYE") || mess==null){
