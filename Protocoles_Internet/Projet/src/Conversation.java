@@ -14,25 +14,27 @@ public class Conversation extends JFrame /*implements Runnable*/{
 	private JTextField textField;
 	private PrintWriter pw;
 	private ConvReception cv;
+	private JFrame frame;
 	
 	public Conversation(Conv v){
 		this.h = v;
-    	this.setTitle("Connection with "+h.getSock().getInetAddress().toString()+" in port "+h.getPort());
-    	this.setSize(700, 500);
-    	this.setLocationRelativeTo(null);
-    	this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-	    //this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.setTitle("Connection with "+h.getSock().getInetAddress().toString()+" in port "+h.getPort());
+		this.setSize(700, 500);
+		this.setLocationRelativeTo(null);
+		this.frame = this;
+    	//this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	    this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-		/*this.addWindowListener(new java.awt.event.WindowAdapter() {
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 				try{
 					pw.close();
 					h.socket.close();
-					System.out.println("Fermé Closed");
+					frame.dispose();
 				}catch(Exception e){e.printStackTrace();}
 			}
-		});*/
+		});
 		
 	    // Create a  vertical box
 		Box vBox = Box.createVerticalBox();
