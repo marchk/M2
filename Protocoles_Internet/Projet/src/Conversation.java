@@ -14,7 +14,10 @@ public class Conversation extends JFrame /*implements Runnable*/{
 	private JTextField textField;
 	private PrintWriter pw;
 	private ConvReception cv;
-	private JFrame frame;
+	private Conversation frame;
+	private boolean done = false;
+	
+	public boolean isDone(){ return this.done; }
 	
 	public Conversation(Conv v){
 		this.h = v;
@@ -31,6 +34,7 @@ public class Conversation extends JFrame /*implements Runnable*/{
 				try{
 					pw.close();
 					h.socket.close();
+					frame.done = true;
 					frame.dispose();
 				}catch(Exception e){e.printStackTrace();}
 			}
