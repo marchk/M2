@@ -24,6 +24,7 @@ public class Hote extends Conv implements Runnable{
 				while(!c.isDone()){System.out.print("");}
 				server.close();
 				System.out.println("[Connexion terminée avec "+s.getInetAddress().toString()+"]");
+				return;
 			}
 		}
 		catch(Exception e){
