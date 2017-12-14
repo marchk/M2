@@ -198,7 +198,7 @@ public class servThread implements Runnable{
 		try{
 			String[] opt = m.split(" ");
 			if(opt[1].startsWith("ID")){
-				String id = opt[2], ip2 = opt[4];
+				String id = opt[2], ip2 =socket.getInetAddress().toString();
 				
 				String ip = ipForId(id);
 				String port = portForId(id);
@@ -263,11 +263,9 @@ public class servThread implements Runnable{
 
 	private Socket sockForIp(String ip){
 		String ip2 = setAdr(ip);
-		System.out.println("IP to find : "+ip2);
 		for(Socket s : serveurTCP.members){
 			String sadr = setAdr(s.getInetAddress().toString()),
 				sadr2 = setAdr(s.getLocalAddress().toString());
-			System.out.println(""+ip2 +" = "+sadr+" || "+sadr2);
 			if(sadr.equals(ip2) || sadr2.equals(ip2)){return s;}
 		}
 		return null;
@@ -295,9 +293,6 @@ public class servThread implements Runnable{
 		try{
 			BufferedReader br=new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			PrintWriter pw=new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-			InetAddress sockAdr = socket.getInetAddress();
-			//pw.println("HI "+sockAdr+" !");
-			//pw.flush();
 			while(true){
 				String mess=br.readLine();
 				if(mess.equals("BYE") || mess==null){
