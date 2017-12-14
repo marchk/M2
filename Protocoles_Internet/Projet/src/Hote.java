@@ -13,7 +13,7 @@ public class Hote extends Conv implements Runnable{
 	
 	public void run(){
 		try{
-			System.out.println("[En attente sur le port "+this.port+"...]");
+			System.out.println("[En attente de connexion sur le port "+this.port+"...]");
 			ServerSocket server = new ServerSocket(this.port);
 			while(true){
 				Socket s=server.accept();
