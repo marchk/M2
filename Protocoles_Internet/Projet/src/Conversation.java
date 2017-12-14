@@ -20,7 +20,7 @@ public class Conversation extends JFrame /*implements Runnable*/{
     	this.setTitle("Connection with "+h.getSock().getInetAddress().toString()+" in port "+h.getPort());
     	this.setSize(700, 500);
     	this.setLocationRelativeTo(null);
-    	this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    	this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 	    //this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		/*this.addWindowListener(new java.awt.event.WindowAdapter() {
