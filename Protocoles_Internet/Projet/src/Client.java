@@ -25,9 +25,10 @@ public class Client extends Conv implements Runnable{
 		try{
 			System.out.println("[Tentative de connexion avec "+this.ip+" sur le port "+this.port+"...]");
 			do{
+				ex=null;
 				try{
 					s=new Socket(this.ip,this.port);
-				}catch(Exception e){ex = e; s=null; e.printStackTrace();}
+				}catch(Exception e){ex = e; s=null;}
 				System.out.println("try "+(i+1)+" : socket = "+s);
 				i++;
 			}while(ex!=null && i<0xfffff);
