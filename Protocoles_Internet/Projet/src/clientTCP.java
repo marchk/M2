@@ -31,6 +31,10 @@ public class clientTCP{
 			
 			System.out.print("Port d'écoute pour l'annonce : ");
 			port = sc.nextLine();
+			while(!portLibre(Integer.parseInt(port) || !isNumber(port)){
+				System.out.println("Port Indisponible ou invalide ! Rechoisir un port !");
+				port = sc.nextLine();
+			}
 			
 			System.out.print("Message à propos de l'annonce : ");
 			msg = sc.nextLine();
@@ -49,6 +53,24 @@ public class clientTCP{
 		else{ return com; }
 	}
 	
+	private static boolean isNumber(String n){
+		boolean num = true;
+		for(int i=0; i<n.length(); i++){
+			char c = n.charAt(i);
+			if(!(c>='0' && c<='9')){return false;}
+		}
+		return true;
+	}		  
+			      
+	private static boolean portLibre(int i){
+		try{
+			ServerSocket server=new ServerSocket(i);
+			server.close();
+			return true;
+		}catch(Exception e){
+			return false;
+		}
+	}
 	
 	
 	private static String mod_space(String m){
