@@ -1,6 +1,7 @@
 import java.net.*;
 import java.io.*;
 import java.util.*;
+import java.lang.*;
 import javafx.stage.Stage;
 import javafx.application.Application;
 
@@ -12,9 +13,16 @@ public class Client extends Conv implements Runnable{
 	}
 	
 	public void run(){
-		Thread t=null;
+		Socket s=null;
+		Exception ex=null;
+		int i=0;
 		try{
-			Socket s=new Socket(this.ip,this.port);
+			do{
+				try{
+					s=new Socket(this.ip,this.port);
+					i++;
+				}catch(Exception e){ex = e;}
+			}while(ex!=null && i<0xfffffff);
 			this.socket = s;
 			System.out.println("Connexion établie");
 			Conversation c = new Conversation(this);
