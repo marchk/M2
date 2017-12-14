@@ -29,17 +29,12 @@ public class Client extends Conv implements Runnable{
 				try{
 					s=new Socket(this.ip,this.port);
 				}catch(Exception e){ex = e; s=null;}
-				System.out.println("try "+(i+1)+" : socket = "+s);
 				i++;
 			}while(ex!=null && i<0xfffff);
 			if(s!=null){
 				this.socket = s;
 				System.out.println("Connexion établie");
 				Conversation c = new Conversation(this);
-				/*t = new Thread(c);
-				t.start();*/
-				//s.close();
-				//server.close();
 			}
 			else{ System.out.println("Connexion échouée"); }
 		}catch(Exception e){
