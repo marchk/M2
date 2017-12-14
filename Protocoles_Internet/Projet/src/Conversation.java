@@ -7,12 +7,13 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
  
-public class Conversation extends JFrame implements Runnable{
+public class Conversation extends JFrame /*implements Runnable*/{
 	private Conv h;
 	private JLabel[] lab_tab;
 	private JButton envoi;
 	private JTextField textField;
 	private PrintWriter pw;
+	private ConvReception cv;
 	
 	public Conversation(Conv v){
 		this.h = v;
@@ -83,6 +84,10 @@ public class Conversation extends JFrame implements Runnable{
 		}catch(Exception e){
 		
 		}
+		this.cv = new ConvReception(this.h.getSock(),this.lab_tab);
+		Thread t = new Thread(cv);
+		t.start();
+		this.setVisible(true);
 		
   }
   
@@ -97,11 +102,11 @@ public class Conversation extends JFrame implements Runnable{
 		lb[lb.length-1].setText(s);
 	}
   
-	public void run(){
+	/*public void run(){
 		ConvReception cv = new ConvReception(this.h.getSock(),this.lab_tab);
 		Thread t = new Thread(cv);
 		t.start();
 	  	this.setVisible(true);
-	}
+	}*/
 	
 }
