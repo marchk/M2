@@ -16,7 +16,7 @@ public class clientTCPReception implements Runnable{
 				if((mess!=null)&&(!mess.equals(""))){
 					if(mess.startsWith("CON PORT")){
 						try{
-							String[] ms = mess.split(" ");//"CON IDid IPip PORTport
+							String[] ms = mess.split(" ");
 							String port = ms[2], ip = ms[ms.length-1];
 							Popup pu = new Popup(ip,port,socket);
 						}catch(Exception e){}
@@ -29,7 +29,6 @@ public class clientTCPReception implements Runnable{
 							if(ms[i].startsWith("IP")){ip = ms[i+1];}
 							else if(ms[i].startsWith("PORT")){port = Integer.parseInt(ms[i+1]);}
 						}
-						//Thread.sleep(4000);
 						if(mess.contains("HOST")){
 							Hote h = new Hote(port);
 							Thread th = new Thread(h);
@@ -41,21 +40,13 @@ public class clientTCPReception implements Runnable{
 							tc.start();
 						}
 					}
-					
-					//else{
-						//String[] ms = mess.split("@");
-						System.out.println("\""+mess+"\"");
-						/*for(int i=0;i<ms.length; i++){
-							System.out.println(ms[i]+"\"");
-						}*/
-					//}
+					System.out.println("\""+mess+"\"");
 				}
 			}
 		}
 		catch(Exception e){
-			//e.printStackTrace();
 			if(br!=null){
-				try{br.close();}catch(Exception ex){/*ex.printStackTrace();*/}
+				try{br.close();}catch(Exception ex){}
 			}
 		}
 	}
