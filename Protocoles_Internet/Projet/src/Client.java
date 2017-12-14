@@ -23,9 +23,9 @@ public class Client extends Conv implements Runnable{
 				try{
 					s=new Socket(this.ip,this.port);
 				}catch(Exception e){ex = e;}
+				System.out.println("try "+(i+1)+" : socket = "+s);
 				i++;
-				System.out.println("i = "+i+" : socket = "+s);
-			}while(ex==null && i<100000);
+			}while(ex!=null && i<100000);
 			if(s!=null){
 				this.socket = s;
 				System.out.println("Connexion établie");
