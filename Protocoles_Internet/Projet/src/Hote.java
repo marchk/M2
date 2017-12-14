@@ -21,12 +21,12 @@ public class Hote extends Conv implements Runnable{
 				this.socket = s;
 				System.out.println("Connexion en cours...");
 				Conversation c = new Conversation(this);
-				t = new Thread(c);
-				t.start();
-				t.join();
-				s.close();
-				server.close();
-				break;
+				/*t = new Thread(c);
+				t.start();				
+				t.join();*/
+				//s.close();
+				//server.close();
+				//break;
 			}
 		}
 		catch(Exception e){
