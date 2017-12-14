@@ -43,7 +43,7 @@ public class clientTCP{
 			String id, ip = so.getInetAddress().toString();
 			System.out.print("ID de l'article qui vous intéresse : ");
 			id = sc.nextLine();
-			return "CON ID "+id+" IP "+ip;
+			return "CON ID "+id/*+" IP "+ip*/;
 		}
 		
 		else{ return com; }
