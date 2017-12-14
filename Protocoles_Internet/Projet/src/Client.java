@@ -35,7 +35,7 @@ public class Client extends Conv implements Runnable{
 				this.socket = s;
 				System.out.println("Connexion établie");
 				Conversation c = new Conversation(this);
-				while(!c.isDone()){}
+				while(!c.isDone()){System.out.print("");}
 				s.close();
 				System.out.println("[Connexion terminée avec "+this.ip+"]");
 			}
