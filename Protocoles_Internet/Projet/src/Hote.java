@@ -12,7 +12,6 @@ public class Hote extends Conv implements Runnable{
 	
 	
 	public void run(){
-		Thread t=null;
 		try{
 			System.out.println("Hote en attente sur le port "+this.port);
 			ServerSocket server = new ServerSocket(this.port);
@@ -32,7 +31,6 @@ public class Hote extends Conv implements Runnable{
 		catch(Exception e){
 			System.out.println(e);
 			e.printStackTrace();
-			if(t!=null){t.stop();}
 		}
 	}
 
