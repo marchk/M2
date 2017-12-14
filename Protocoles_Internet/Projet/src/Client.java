@@ -10,7 +10,12 @@ public class Client extends Conv implements Runnable{
 	
 	public Client(int p, String i){
 		super(null,p);
-		this.ip = i;
+		this.ip = setAdr(i);
+	}
+	
+	private static String setAdr(String ip){
+		String[] ipt = ip.split("/");
+		return ipt[ipt.length-1];
 	}
 	
 	public void run(){
